@@ -20,3 +20,10 @@ Missing features
 * Keeping track of score
 * Interface for machine learning algorithm
 * Tilting bird when flying up and down
+
+Credits
+=======
+
+[Original game](https://en.wikipedia.org/wiki/Flappy_Bird) by Dong Nguyen.
+
+Spires downloaded from [here](http://www.spriters-resource.com/mobile/flappybird/sheet/59537/)
