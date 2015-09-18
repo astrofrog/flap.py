@@ -4,6 +4,8 @@ About
 This is a simplistic clone of flappy bird, still very much in development. The
 aim is to be able to use it to test out machine learning algorithms.
 
+![screenshot](flappy_screenshot.png)
+
 Install
 =======
 
