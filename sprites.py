@@ -102,7 +102,6 @@ class Bird(object):
         self.dx = self.sprite.width
         self.dy = self.sprite.height
 
-
     def reset(self):
         self.x = self.window.width * 0.5
         self.y = self.window.height * 0.55

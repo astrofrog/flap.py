@@ -32,11 +32,12 @@ gameover = get_sprite('gameover.png', scale=settings.scale)
 # Set up game state, which indicates whether the game has started and how long
 # we have to wait until the next pipe appears.
 
+
 class GameState(object):
 
     def __init__(self):
         self.reset()
-        
+
     def reset(self):
         self.started = False
         self.t_to_next_pipe = 2
