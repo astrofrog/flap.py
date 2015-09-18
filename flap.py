@@ -1,18 +1,11 @@
-import random
 from copy import copy
 
 import pyglet
-import numpy as np
+from pyglet.gl import GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, glEnable, glBlendFunc
 
 import settings
-from geometry import HorizontalSegment, VerticalSegment
-from sprites import Ball, Rectangle
-
-from pyglet.gl import *
-glEnable(GL_TEXTURE_2D)
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-glEnable(GL_BLEND)
-glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+from sprites import Bird, Background, Floor, PipeSet
+from utils import get_sprite, check_collision
 
 # Initialize window
 
@@ -23,21 +16,15 @@ window.clear()
 #These arguments are x, y and z respectively. This scales your window.
 # glScalef(4.0, 4.0, 4.0)
 
-from bird import Bird
 bird = Bird(scale=settings.scale,
             x_start=window.width * 0.5,
             y_start=window.height * 0.55)
 
-from background import Background, Floor
 background = Background(scale=settings.scale)
 floor = Floor(scale=settings.scale)
 
-from pipe import PipeSet
 pipes = []
 
-from collision import check_collision
-
-from utils import get_sprite
 
 class GameState(object):
 
@@ -49,9 +36,8 @@ class GameState(object):
 tap_to_start = get_sprite('sprites/tap.png', scale=settings.scale)
 gameover = get_sprite('sprites/gameover.png', scale=settings.scale)
 
-
-
 state = GameState()
+
 
 def update(dt):
 
@@ -88,6 +74,7 @@ def update(dt):
     if bird.dying and check_collision(bird, floor):
         bird.stop()
 
+
 @window.event
 def on_mouse_press(*args):
     if bird.alive:
@@ -96,6 +83,7 @@ def on_mouse_press(*args):
         state.started = True
         bird.start()
         bird.flap()
+
 
 @window.event
 def on_draw():
