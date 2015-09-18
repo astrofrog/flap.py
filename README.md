@@ -10,6 +10,10 @@ Install
 =======
 
 The only dependency is [pyglet](https://bitbucket.org/pyglet/pyglet/wiki/Home).
+You can install it with::
+
+    pip install pyglet
+
 Once this is installed, simply run::
 
     python flap.py
