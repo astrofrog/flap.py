@@ -13,7 +13,7 @@ window = pyglet.window.Window(width=settings.window_width * settings.scale,
                               height=settings.window_height * settings.scale, resizable=False)
 window.clear()
 
-#These arguments are x, y and z respectively. This scales your window.
+# These arguments are x, y and z respectively. This scales your window.
 # glScalef(4.0, 4.0, 4.0)
 
 bird = Bird(scale=settings.scale,
@@ -97,7 +97,7 @@ def on_draw():
 
     if not state.started:
         tap_to_start.blit(0.5 * (window.width - tap_to_start.width * 0.37), 0.43 * window.height)
-    
+
     if state.started and bird.dead:
         gameover.blit(0.5 * (window.width - gameover.width), 0.5 * window.height)
 

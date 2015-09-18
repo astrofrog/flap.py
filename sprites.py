@@ -37,10 +37,10 @@ class PipeSet(object):
 
     def stop(self):
         self.vx = 0
-        
+
 
 class Background(object):
-    
+
     def __init__(self, scale):
 
         # Load bird in different states
@@ -61,7 +61,7 @@ class Background(object):
     def blit(self):
         self.sprite.blit(self.x, 0)
         self.sprite.blit(self.x + self.dx, 0)
-        
+
     @property
     def bboxes(self):
         return []
@@ -71,7 +71,7 @@ class Background(object):
 
 
 class Floor(object):
-    
+
     def __init__(self, scale):
 
         # Load bird in different states
@@ -92,14 +92,14 @@ class Floor(object):
     def blit(self):
         self.sprite.blit(self.x, -50)
         self.sprite.blit(self.x + self.dx, -50)
-        
+
     @property
     def bboxes(self):
         return [BBox(self.x, -50, self.dx * 2, self.dy)]
 
     def stop(self):
         self.vx = 0
-        
+
 
 class Bird(object):
     """
@@ -127,9 +127,9 @@ class Bird(object):
 
         self.dx = self.sprite.width
         self.dy = self.sprite.height
-    
+
         self.state = 0
-    
+
     @property
     def alive(self):
         return self.state == 2
@@ -149,7 +149,7 @@ class Bird(object):
         self.state = 1
         self.ay *= 2
         self.vy = 100
-    
+
     def stop(self):
         self.state = 0
         self.vy = 0
@@ -184,4 +184,3 @@ class Bird(object):
     @property
     def bboxes(self):
         return [BBox(self.x - 0.5 * self.dx, self.y - 0.5 * self.dy, self.dx, self.dy)]
-    
