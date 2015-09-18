@@ -7,7 +7,9 @@ import settings
 from sprites import Bird, Background, Floor, Pipe
 from utils import get_sprite, check_collision
 
-def main():
+
+
+def main(callback=None):
 
     # Initialize window
 
@@ -15,6 +17,10 @@ def main():
                                   height=settings.window_height * settings.scale,
                                   resizable=False)
     window.clear()
+
+    # To pass to the callback
+    def click():
+        window.dispatch_event('on_mouse_press')
 
     # Set up sprites
 
@@ -73,7 +79,7 @@ def main():
 
             # Check for collisions
             collision = check_collision(bird, floor) or any([check_collision(bird, pipe) for pipe in pipes])
-            if collision:
+            if collision or bird.y > window.height:
                 bird.die()
 
         if not bird.dead:
@@ -113,6 +119,19 @@ def main():
         if bird.dying or bird.dead:
             gameover.blit(0.5 * (window.width - gameover.width), 0.5 * window.height)
 
+        if callback is not None:
+
+            import numpy as np
+
+            buf = (gl.GLubyte * (3 * window.width * window.height))(0)
+            gl.glReadPixels(0, 0, window.width, window.height,
+                            gl.GL_RGB,
+                            gl.GL_UNSIGNED_BYTE, buf)
+            array = np.frombuffer(buf, dtype='<u1')
+            array = array.reshape(window.height, window.width, 3)
+
+            callback(array, click, alive=bird.alive)
+
 
     gl.glEnable(gl.GL_BLEND)
     gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
@@ -123,4 +142,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
