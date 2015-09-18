@@ -142,7 +142,7 @@ class Bird(object):
         return self.sprite_lib[self.curr_id % 4]
 
     def flap(self):
-        self.vy = 400
+        self.vy = 500
 
     def update(self, dt):
 
