@@ -2,7 +2,7 @@ import random
 from utils import get_sprite, BBox
 
 
-class PipeSet(object):
+class Pipe(object):
 
     def __init__(self, scale, space, window):
 

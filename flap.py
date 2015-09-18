@@ -4,7 +4,7 @@ import pyglet
 from pyglet.gl import GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, glEnable, glBlendFunc
 
 import settings
-from sprites import Bird, Background, Floor, PipeSet
+from sprites import Bird, Background, Floor, Pipe
 from utils import get_sprite, check_collision
 
 # Initialize window
@@ -49,7 +49,7 @@ def update(dt):
         state.t_to_next_pipe -= dt
 
         if state.t_to_next_pipe < 0:
-            pipe = PipeSet(scale=settings.scale, space=150, window=window)
+            pipe = Pipe(scale=settings.scale, space=150, window=window)
             pipes.append(pipe)
             state.t_to_next_pipe += 2
 
