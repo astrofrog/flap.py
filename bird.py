@@ -1,6 +1,6 @@
-import time
 from utils import get_sprite
 
+from bbox import BBox
 
 class Bird(object):
     """
@@ -24,17 +24,44 @@ class Bird(object):
         self.x = x_start
         self.y = y_start
         self.vy = 0
-        self.ay = -1000
+        self.ay = -500
 
         self.dx = self.sprite.width
         self.dy = self.sprite.height
+        
+        self.state = 0
+        
+    @property
+    def alive(self):
+        return self.state == 2
+
+    @property
+    def dying(self):
+        return self.state == 1
+
+    @property
+    def dead(self):
+        return self.state == 0
+
+    def start(self):
+        self.state = 2
+
+    def die(self):
+        self.state = 1
+        self.ay *= 2
+        self.vy = 100
+        
+    def stop(self):
+        self.state = 0
+        self.vy = 0
+        self.ay = 0
 
     @property
     def sprite(self):
         return self.sprite_lib[self.curr_id % 4]
 
     def flap(self):
-        self.vy = 300
+        self.vy = 250
 
     def update(self, dt):
 
@@ -54,3 +81,8 @@ class Bird(object):
     def blit(self):
         self.sprite.blit(self.x - 0.5 * self.dx,
                          self.y - 0.5 * self.dy)
+
+    @property
+    def bboxes(self):
+        return [BBox(self.x - 0.5 * self.dx, self.y - 0.5 * self.dy, self.dx, self.dy)]
+        
