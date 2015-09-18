@@ -1,7 +1,7 @@
 from copy import copy
 
 import pyglet
-from pyglet.gl import GL_BLEND, GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, glEnable, glBlendFunc
+from pyglet import gl
 
 import settings
 from sprites import Bird, Background, Floor, Pipe
@@ -10,31 +10,36 @@ from utils import get_sprite, check_collision
 # Initialize window
 
 window = pyglet.window.Window(width=settings.window_width * settings.scale,
-                              height=settings.window_height * settings.scale, resizable=False)
+                              height=settings.window_height * settings.scale,
+                              resizable=False)
 window.clear()
 
-# These arguments are x, y and z respectively. This scales your window.
-# glScalef(4.0, 4.0, 4.0)
+# Set up sprites
 
 bird = Bird(scale=settings.scale,
-            x_start=window.width * 0.5,
-            y_start=window.height * 0.55)
+            window=window)
 
 background = Background(scale=settings.scale)
+
 floor = Floor(scale=settings.scale)
 
 pipes = []
 
+tap_to_start = get_sprite('tap.png', scale=settings.scale)
+
+gameover = get_sprite('gameover.png', scale=settings.scale)
+
+# Set up game state, which indicates whether the game has started and how long
+# we have to wait until the next pipe appears.
 
 class GameState(object):
 
     def __init__(self):
+        self.reset()
+        
+    def reset(self):
         self.started = False
         self.t_to_next_pipe = 2
-
-
-tap_to_start = get_sprite('sprites/tap.png', scale=settings.scale)
-gameover = get_sprite('sprites/gameover.png', scale=settings.scale)
 
 state = GameState()
 
@@ -57,7 +62,7 @@ def update(dt):
             if not pipe.visible:
                 pipes.remove(pipe)
 
-        bird.update(dt)
+        # Move everything
         background.update(dt)
         for pipe in pipes:
             pipe.update(dt)
@@ -71,7 +76,7 @@ def update(dt):
     if not bird.dead:
         bird.update(dt)
 
-    if bird.dying and check_collision(bird, floor):
+    if bird.dying and bird.y < -100:
         bird.stop()
 
 
@@ -83,6 +88,10 @@ def on_mouse_press(*args):
         state.started = True
         bird.start()
         bird.flap()
+    elif bird.dead:
+        bird.reset()
+        pipes.clear()
+        state.reset()
 
 
 @window.event
@@ -98,12 +107,12 @@ def on_draw():
     if not state.started:
         tap_to_start.blit(0.5 * (window.width - tap_to_start.width * 0.37), 0.43 * window.height)
 
-    if state.started and bird.dead:
+    if bird.dying or bird.dead:
         gameover.blit(0.5 * (window.width - gameover.width), 0.5 * window.height)
 
 
-glEnable(GL_BLEND)
-glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+gl.glEnable(gl.GL_BLEND)
+gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
 
 pyglet.clock.schedule_interval(update, 0.01)
 

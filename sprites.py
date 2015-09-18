@@ -5,11 +5,8 @@ from utils import get_sprite, BBox
 class Pipe(object):
 
     def __init__(self, scale, space, window):
-
-        # Load bird in different states
-
-        self.sprite_bot = get_sprite('sprites/pipe_bot.png', scale=scale)
-        self.sprite_top = get_sprite('sprites/pipe_top.png', scale=scale)
+        self.sprite_bot = get_sprite('pipe_bot.png', scale=scale)
+        self.sprite_top = get_sprite('pipe_top.png', scale=scale)
         self.dx = self.sprite_bot.width
         self.dy = self.sprite_bot.height
         self.space = space
@@ -42,25 +39,21 @@ class Pipe(object):
 class Background(object):
 
     def __init__(self, scale):
-
-        # Load bird in different states
-
-        self.sprite = get_sprite('sprites/background.png', scale=scale)
+        self.sprite = get_sprite('background.png', scale=scale)
         self.dx = self.sprite.width
         self.dy = self.sprite.height
         self.x = 0
+        self.y = 0
         self.vx = -50
 
     def update(self, dt):
-
-        # Update background position
         self.x += self.vx * dt
         if self.x < -self.dx:
             self.x += self.dx
 
     def blit(self):
-        self.sprite.blit(self.x, 0)
-        self.sprite.blit(self.x + self.dx, 0)
+        self.sprite.blit(self.x, self.y)
+        self.sprite.blit(self.x + self.dx, self.y)
 
     @property
     def bboxes(self):
@@ -70,32 +63,19 @@ class Background(object):
         self.vx = 0
 
 
-class Floor(object):
+class Floor(Background):
 
     def __init__(self, scale):
-
-        # Load bird in different states
-
-        self.sprite = get_sprite('sprites/floor.png', scale=scale)
+        self.sprite = get_sprite('floor.png', scale=scale)
         self.dx = self.sprite.width
         self.dy = self.sprite.height
         self.x = 0
+        self.y = -50
         self.vx = -100
-
-    def update(self, dt):
-
-        # Update background position
-        self.x += self.vx * dt
-        if self.x < -self.dx:
-            self.x += self.dx
-
-    def blit(self):
-        self.sprite.blit(self.x, -50)
-        self.sprite.blit(self.x + self.dx, -50)
 
     @property
     def bboxes(self):
-        return [BBox(self.x, -50, self.dx * 2, self.dy)]
+        return [BBox(self.x, self.y, self.dx * 2, self.dy)]
 
     def stop(self):
         self.vx = 0
@@ -106,29 +86,32 @@ class Bird(object):
     The flappy bird!
     """
 
-    def __init__(self, scale, x_start, y_start):
+    def __init__(self, scale, window):
 
         # Load bird in different states
 
-        self.sprite_lib = [get_sprite('sprites/bird1.png', scale=scale),
-                           get_sprite('sprites/bird2.png', scale=scale),
-                           get_sprite('sprites/bird3.png', scale=scale)]
+        self.sprite_lib = [get_sprite('bird1.png', scale=scale),
+                           get_sprite('bird2.png', scale=scale),
+                           get_sprite('bird3.png', scale=scale)]
         self.sprite_lib.append(self.sprite_lib[1])
 
-        self.curr_id = 1
+        self.window = window
 
-        self.flap_dt = 0.1
-        self.flap_t = 0
-
-        self.x = x_start
-        self.y = y_start
-        self.vy = 0
-        self.ay = -500
+        self.reset()
 
         self.dx = self.sprite.width
         self.dy = self.sprite.height
 
-        self.state = 0
+
+    def reset(self):
+        self.x = self.window.width * 0.5
+        self.y = self.window.height * 0.55
+        self.vy = 0
+        self.ay = -2000
+        self.state = 3
+        self.flap_dt = 0.1
+        self.flap_t = 0
+        self.curr_id = 1
 
     @property
     def alive(self):
@@ -148,7 +131,7 @@ class Bird(object):
     def die(self):
         self.state = 1
         self.ay *= 2
-        self.vy = 100
+        self.vy = 200
 
     def stop(self):
         self.state = 0
@@ -160,7 +143,7 @@ class Bird(object):
         return self.sprite_lib[self.curr_id % 4]
 
     def flap(self):
-        self.vy = 250
+        self.vy = 400
 
     def update(self, dt):
 
