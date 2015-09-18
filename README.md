@@ -18,3 +18,5 @@ Missing features
 ================
 
 * Keeping track of score
+* Interface for machine learning algorithm
+* Tilting bird when flying up and down
