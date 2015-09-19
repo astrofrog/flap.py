@@ -129,6 +129,7 @@ def main(callback=None):
                             gl.GL_UNSIGNED_BYTE, buf)
             array = np.frombuffer(buf, dtype='<u1')
             array = array.reshape(window.height, window.width, 3)
+            array = array[::settings.scale, ::settings.scale]
 
             callback(array, click, alive=bird.alive)
 
