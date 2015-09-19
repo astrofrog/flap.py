@@ -3,13 +3,15 @@ import os
 import pyglet
 from pyglet import gl
 
+import settings
 
-def get_sprite(filename, scale):
+
+def get_sprite(filename):
     image = pyglet.image.load(os.path.join('sprites', filename))
     texture = image.get_texture()
     gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
-    texture.width = texture.width * scale
-    texture.height = texture.height * scale
+    texture.width = texture.width * settings.scale
+    texture.height = texture.height * settings.scale
     return texture
 
 

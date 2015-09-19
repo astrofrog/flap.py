@@ -24,18 +24,17 @@ def main(callback=None):
 
     # Set up sprites
 
-    bird = Bird(scale=settings.scale,
-                window=window)
+    bird = Bird(window=window)
 
-    background = Background(scale=settings.scale)
+    background = Background()
 
-    floor = Floor(scale=settings.scale)
+    floor = Floor()
 
     pipes = []
 
-    tap_to_start = get_sprite('tap.png', scale=settings.scale)
+    tap_to_start = get_sprite('tap.png')
 
-    gameover = get_sprite('gameover.png', scale=settings.scale)
+    gameover = get_sprite('gameover.png')
 
     # Set up game state, which indicates whether the game has started and how long
     # we have to wait until the next pipe appears.
@@ -63,7 +62,7 @@ def main(callback=None):
             state.t_to_next_pipe -= dt
 
             if state.t_to_next_pipe < 0:
-                pipe = Pipe(scale=settings.scale, space=150, window=window)
+                pipe = Pipe(space=150, window=window)
                 pipes.append(pipe)
                 state.t_to_next_pipe += 2
 

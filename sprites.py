@@ -4,9 +4,9 @@ from utils import get_sprite, BBox
 
 class Pipe(object):
 
-    def __init__(self, scale, space, window):
-        self.sprite_bot = get_sprite('pipe_bot.png', scale=scale)
-        self.sprite_top = get_sprite('pipe_top.png', scale=scale)
+    def __init__(self, space, window):
+        self.sprite_bot = get_sprite('pipe_bot.png')
+        self.sprite_top = get_sprite('pipe_top.png')
         self.dx = self.sprite_bot.width
         self.dy = self.sprite_bot.height
         self.space = space
@@ -38,8 +38,8 @@ class Pipe(object):
 
 class Background(object):
 
-    def __init__(self, scale):
-        self.sprite = get_sprite('background.png', scale=scale)
+    def __init__(self):
+        self.sprite = get_sprite('background.png')
         self.dx = self.sprite.width
         self.dy = self.sprite.height
         self.x = 0
@@ -65,8 +65,8 @@ class Background(object):
 
 class Floor(Background):
 
-    def __init__(self, scale):
-        self.sprite = get_sprite('floor.png', scale=scale)
+    def __init__(self):
+        self.sprite = get_sprite('floor.png')
         self.dx = self.sprite.width
         self.dy = self.sprite.height
         self.x = 0
@@ -86,13 +86,13 @@ class Bird(object):
     The flappy bird!
     """
 
-    def __init__(self, scale, window):
+    def __init__(self, window):
 
         # Load bird in different states
 
-        self.sprite_lib = [get_sprite('bird1.png', scale=scale),
-                           get_sprite('bird2.png', scale=scale),
-                           get_sprite('bird3.png', scale=scale)]
+        self.sprite_lib = [get_sprite('bird1.png'),
+                           get_sprite('bird2.png'),
+                           get_sprite('bird3.png')]
         self.sprite_lib.append(self.sprite_lib[1])
 
         self.window = window
