@@ -1,4 +1,6 @@
 import random
+
+import settings
 from utils import get_sprite, BBox
 
 
@@ -11,7 +13,7 @@ class Pipe(object):
         self.dy = self.sprite_bot.height
         self.space = space
         self.x = window.width
-        self.vx = -100
+        self.vx = -50 * settings.scale
         self.wx = window.width
         self.wy = window.height
         self.y0 = -self.dy / 2 + random.uniform(0, self.dy / 2.)
@@ -44,7 +46,7 @@ class Background(object):
         self.dy = self.sprite.height
         self.x = 0
         self.y = 0
-        self.vx = -50
+        self.vx = -25 * settings.scale
 
     def update(self, dt):
         self.x += self.vx * dt
@@ -70,8 +72,8 @@ class Floor(Background):
         self.dx = self.sprite.width
         self.dy = self.sprite.height
         self.x = 0
-        self.y = -50
-        self.vx = -100
+        self.y = -25 * settings.scale
+        self.vx = -50 * settings.scale
 
     @property
     def bboxes(self):
@@ -106,7 +108,7 @@ class Bird(object):
         self.x = self.window.width * 0.5
         self.y = self.window.height * 0.55
         self.vy = 0
-        self.ay = -2000
+        self.ay = -1000 * settings.scale
         self.state = 3
         self.flap_dt = 0.1
         self.flap_t = 0
@@ -130,7 +132,7 @@ class Bird(object):
     def die(self):
         self.state = 1
         self.ay *= 2
-        self.vy = 200
+        self.vy = 100 * settings.scale
 
     def stop(self):
         self.state = 0
@@ -142,7 +144,7 @@ class Bird(object):
         return self.sprite_lib[self.curr_id % 4]
 
     def flap(self):
-        self.vy = 500
+        self.vy = 250 * settings.scale
 
     def update(self, dt):
 

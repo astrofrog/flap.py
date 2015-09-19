@@ -62,7 +62,7 @@ def main(callback=None):
             state.t_to_next_pipe -= dt
 
             if state.t_to_next_pipe < 0:
-                pipe = Pipe(space=150, window=window)
+                pipe = Pipe(space=75 * settings.scale, window=window)
                 pipes.append(pipe)
                 state.t_to_next_pipe += 2
 
