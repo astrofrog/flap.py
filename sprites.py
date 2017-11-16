@@ -108,7 +108,7 @@ class Bird(object):
         self.x = self.window.width * 0.5
         self.y = self.window.height * 0.55
         self.vy = 0
-        self.ay = -1000 * settings.scale
+        self.ay = -30 * settings.scale
         self.state = 3
         self.flap_dt = 0.1
         self.flap_t = 0
@@ -144,7 +144,8 @@ class Bird(object):
         return self.sprite_lib[self.curr_id % 4]
 
     def flap(self):
-        self.vy = 250 * settings.scale
+        # self.vy = 250 * settings.scale
+        pass
 
     def update(self, dt):
 
